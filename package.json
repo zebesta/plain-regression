@@ -4,11 +4,18 @@
   "description": "A linear regression example website",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify functionplot.js -o functionalplotbuilt.js",
+    "watch": "watchify functionplot.js -o functionalplotbuilt.js --debug --verbose"
   },
   "author": "Chris Sebesta",
   "license": "ISC",
   "dependencies": {
-    "chart.js": "^2.4.0"
+    "chart.js": "^2.4.0",
+    "ndarray": "^1.0.18"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.1",
+    "watchify": "^3.7.0"
   }
 }
