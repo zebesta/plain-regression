@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify functionplot.js -o functionalplotbuilt.js",
-    "watch": "watchify functionplot.js -o functionalplotbuilt.js --debug --verbose"
+    "build": "browserify functionplot.js -o static/functionplotbuilt.js",
+    "watch": "watchify functionplot.js -o static/functionplotbuilt.js --debug --verbose"
   },
   "author": "Chris Sebesta",
   "license": "ISC",
   "dependencies": {
     "chart.js": "^2.4.0",
-    "ndarray": "^1.0.18"
+    "ndarray": "^1.0.18",
+    "numeric": "^1.2.6"
   },
   "devDependencies": {
     "browserify": "^13.1.1",
