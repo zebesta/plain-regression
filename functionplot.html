@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://maurizzzio.github.io/function-plot/js/function-plot.js"></script>
+  <script>
+  //construct plot with data as an array of 2 number arrays and strFunction being a string describing what y equals
+  function execute(data, strFunction){
+    if(data && strFunction){
+      functionPlot({
+        target: '#demo',
+        data: [{
+          fn: strFunction,
+          derivative: {
+            fn: '2x',
+            updateOnMouseMove: true
+          }
+        },{
+          fnType: 'points',
+          graphType: 'scatter',
+          points: data
+        }]
+      });
+    }else{
+      functionPlot({
+        target: '#demo',
+        data: [{
+          fn: 'x^2',
+          derivative: {
+            fn: '2x',
+            updateOnMouseMove: true
+          }
+        },{
+          fnType: 'points',
+          graphType: 'scatter',
+          points: [[1,2],[2,2],[3,2]]
+        }]
+      });
+    }
+
+  };
+
+  function randomize(){
+    var randomData = [];
+    for(var i = 0; i<Math.floor(Math.random() * 100); i++){
+      randomData.push(getRandDataPt(3))
+    }
+    console.log(randomData)
+    execute(randomData, 'x^5')
+  }
+
+  function getRandDataPt(max){
+    return [(Math.random() * max), (Math.random() * max)]
+  }
+  </script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+</head>
+<body>
+  <button onclick="execute()">Plot!</button>
+  <button onclick="randomize()">Randomize!</button>
+    <br>
+  <div id="demo"></div>
+</body>
+</html>
