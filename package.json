@@ -1,0 +1,14 @@
+{
+  "name": "plain-regression",
+  "version": "1.0.0",
+  "description": "A linear regression example website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Sebesta",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^2.4.0"
+  }
+}
