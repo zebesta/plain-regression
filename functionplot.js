@@ -37,7 +37,7 @@ function randomize(){
 function known(){
   var data =[];
   for(var i = 0; i<10; i++){
-    data.push([i, i]);
+    data.push([i/2, i*1.5+1]);
   }
   build(data);
 };
@@ -69,7 +69,7 @@ function buildXY(data){
   console.log(numeric.prettyPrint(X));
   console.log(numeric.prettyPrint(theta));
   console.log(numeric.prettyPrint(Y));
-  var arrReturn = gradientDescent(X,Y,theta, 0.01, 10);
+  var arrReturn = gradientDescent(X,Y,theta, 0.01, 10, data);
   var ntheta = arrReturn[0];
   var ncost = arrReturn[1];
   console.log("RESULTS!");
@@ -99,7 +99,7 @@ function computeCost(X, Y, theta){
 }
 
 //Gradient descent to converge to the solution
-function gradientDescent(X, Y, theta, alpha, iters){
+function gradientDescent(X, Y, theta, alpha, iters, data){
   console.log("Grad descent");
   //temp is a matrix of 0s as same dimensions of theta
   var temp = numeric.mul(theta, 0);
@@ -109,25 +109,30 @@ function gradientDescent(X, Y, theta, alpha, iters){
   for(var i = 0; i<iters;i++){
     cost.push(0);
   }
-  // console.log("Cost");
-  // console.log(cost);
-  // console.log(cost.length);
+
 
   //for each iteration
   for(var i=0; i<cost.length; i++){
     // console.log("Iteration")
-    // console.log(numeric.prettyPrint(X));
-    // console.log(numeric.prettyPrint(numeric.transpose(theta)));
-    // console.log(numeric.prettyPrint(Y));
-    // console.log("mul");
+
     var error = numeric.sub(numeric.dot(X, numeric.transpose(theta)), Y);
+    console.log("error:");
+    console.log(numeric.prettyPrint(error));
 
     //for each parameter in X
     for(var j=0; j<theta[0].length; j++){
-      // console.log("Param")
-      var term = numeric.dot(error, numeric.transpose(X)[j]);
+      console.log("Param");
+      console.log(j);
+      console.log(numeric.prettyPrint(error));
+      console.log(numeric.prettyPrint(numeric.transpose(X)[j]));
+      var term = numeric.dot(numeric.transpose(X)[j], error);
+      console.log(numeric.prettyPrint(term));
+      console.log(alpha/X[0].length);
+      console.log(numeric.sum(term));
       temp[0][j] = theta[0][j] - ((alpha/X[0].length) * numeric.sum(term));
     }
+    console.log("Temp:");
+    console.log(numeric.prettyPrint(temp));
     theta = temp;
     cost[i] = computeCost(X, Y, theta);
     console.log("The cost at iteration " + i + " is " +cost[i])
@@ -135,6 +140,8 @@ function gradientDescent(X, Y, theta, alpha, iters){
     console.log(numeric.prettyPrint(theta));
 
   }
+  var strFunction = ''+theta[0][1]+'x+'+theta[0][0];
+  execute(data, strFunction);
 
   return [theta, cost];
 
