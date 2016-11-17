@@ -4,6 +4,9 @@ var numeric = require("numeric");
 // var X;
 // var Y;
 // var theta;
+// var globalData;
+var stringSteps = [];
+var globalData;
 
 //construct plot with data as an array of 2 number arrays and strFunction being a string describing what y equals
 function execute(data, strFunction){
@@ -57,6 +60,7 @@ function getRandDataPt(range){
 }
 
 function buildXY(data, alpha, iterations){
+  globalData = data;
   var X=[[]];
   var Y=[];
   var theta = [[]];
@@ -83,7 +87,12 @@ function buildXY(data, alpha, iterations){
 
 
 function iterate(){
-
+  var step = parseInt(document.getElementById("step").value);
+  if(step < stringSteps.length-1){
+    var i = step+1;
+    document.getElementById("step").value = i;
+    execute(globalData, stringSteps[i]);
+  }
 }
 
 
@@ -157,9 +166,10 @@ function gradientDescent(X, Y, theta, alpha, iters, data){
     console.log("Theta is: ");
     console.log(numeric.prettyPrint(theta));
 
-
     var strFunction = ''+theta[0][1]+'x+'+theta[0][0];
-    execute(data, strFunction);
+    stringSteps[i] = strFunction;
+    document.getElementById("step").value = -1;
+    execute(data, '0');
 
   }
 
@@ -167,6 +177,7 @@ function gradientDescent(X, Y, theta, alpha, iters, data){
   return [theta, cost];
 
 }
+
 
 //export button function to the window
 window.randomize = randomize;
