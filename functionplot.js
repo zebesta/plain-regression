@@ -42,7 +42,6 @@ function known(){
   var alpha, iterations;
   alpha = document.getElementById("alpha").value;
   iterations = document.getElementById("iterations").value;
-  
   var data =[];
   for(var i = 0; i<10; i++){
     data.push([i/2, i*1.5+1]);
@@ -92,11 +91,25 @@ function iterate(){
 function computeCost(X, Y, theta){
   console.log("cost");
   // console.log(numeric.prettyPrint(numeric.transpose(theta)));
-  var xt = numeric.dot(X, theta);
+  // console.log(numeric.prettyPrint(X));
+  // console.log(numeric.prettyPrint(numeric.transpose(theta)));
+  // console.log(numeric.prettyPrint(Y));
+
+
+  var xt = numeric.dot(X, numeric.transpose(theta));
   // console.log(numeric.prettyPrint(xt));
-  var xt2 = numeric.exp(xt, 2);
+  var term = numeric.sub(xt, Y);
+  // console.log(numeric.prettyPrint(term));
+  var term2 = numeric.pow(term, 2);
+  // console.log(numeric.prettyPrint(term2));
   // console.log(numeric.prettyPrint(xt2));
-  var cost = numeric.sum(xt2)/(2*theta.length);
+  // console.log(theta[0].length)
+  console.log("sq values of the matrix above....");
+  // console.log(numeric.prettyPrint(term2));
+
+  // console.log("sum");
+  // console.log(numeric.sum(term2));
+  var cost = numeric.sum(term2)/(2*theta[0].length);
   console.log(cost);
   // gradientDescent(X,Y,theta,0.01,20);
   return cost;
@@ -126,18 +139,18 @@ function gradientDescent(X, Y, theta, alpha, iters, data){
 
     //for each parameter in X
     for(var j=0; j<theta[0].length; j++){
-      console.log("Param");
-      console.log(j);
-      console.log(numeric.prettyPrint(error));
-      console.log(numeric.prettyPrint(numeric.transpose(X)[j]));
+      // console.log("Param");
+      // console.log(j);
+      // console.log(numeric.prettyPrint(error));
+      // console.log(numeric.prettyPrint(numeric.transpose(X)[j]));
       var term = numeric.dot(numeric.transpose(X)[j], error);
-      console.log(numeric.prettyPrint(term));
-      console.log(alpha/X[0].length);
-      console.log(numeric.sum(term));
+      // console.log(numeric.prettyPrint(term));
+      // console.log(alpha/X[0].length);
+      // console.log(numeric.sum(term));
       temp[0][j] = theta[0][j] - ((alpha/X[0].length) * numeric.sum(term));
     }
-    console.log("Temp:");
-    console.log(numeric.prettyPrint(temp));
+    // console.log("Temp:");
+    // console.log(numeric.prettyPrint(temp));
     theta = temp;
     cost[i] = computeCost(X, Y, theta);
     console.log("The cost at iteration " + i + " is " +cost[i])
