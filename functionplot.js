@@ -1,9 +1,9 @@
 var numeric = require("numeric");
 // var nj = require('numjs');
 
-var X;
-var Y;
-var theta;
+// var X;
+// var Y;
+// var theta;
 
 //construct plot with data as an array of 2 number arrays and strFunction being a string describing what y equals
 function execute(data, strFunction){
@@ -25,37 +25,42 @@ function execute(data, strFunction){
 };
 
 function randomize(){
+  var alpha, iterations;
+  alpha = document.getElementById("alpha").value;
+  iterations = document.getElementById("iterations").value;
+
   var randomData = [];
   //generate a random data set of 10-100 x,y values
   for(var i = 0; i<Math.floor(Math.random() * 90 + 10); i++){
     randomData.push(getRandDataPt(20))
   }
-  build(randomData)
+  buildXY(randomData, alpha, iterations)
 };
 
 //build a plot with known data
 function known(){
+  var alpha, iterations;
+  alpha = document.getElementById("alpha").value;
+  iterations = document.getElementById("iterations").value;
+  
   var data =[];
   for(var i = 0; i<10; i++){
     data.push([i/2, i*1.5+1]);
   }
-  build(data);
+  buildXY(data, alpha, iterations);
 };
 
-function build(data){
-  buildXY(data);
-  execute(data, '0');
-}
+
 
 //generate random data point within the range
 function getRandDataPt(range){
   return [(Math.random() * range)-range/2, (Math.random() * range)-range/2]
 }
 
-function buildXY(data){
-  X=[[]];
-  Y=[];
-  theta = [[]];
+function buildXY(data, alpha, iterations){
+  var X=[[]];
+  var Y=[];
+  var theta = [[]];
   for(var i = 0; i<data.length; i++){
     //populate X with 1 and X value for each row
     X[i] = [1, data[i][0]];
@@ -69,7 +74,7 @@ function buildXY(data){
   console.log(numeric.prettyPrint(X));
   console.log(numeric.prettyPrint(theta));
   console.log(numeric.prettyPrint(Y));
-  var arrReturn = gradientDescent(X,Y,theta, 0.01, 10, data);
+  var arrReturn = gradientDescent(X,Y,theta, alpha, iterations, data);
   var ntheta = arrReturn[0];
   var ncost = arrReturn[1];
   console.log("RESULTS!");
@@ -139,9 +144,12 @@ function gradientDescent(X, Y, theta, alpha, iters, data){
     console.log("Theta is: ");
     console.log(numeric.prettyPrint(theta));
 
+
+    var strFunction = ''+theta[0][1]+'x+'+theta[0][0];
+    execute(data, strFunction);
+
   }
-  var strFunction = ''+theta[0][1]+'x+'+theta[0][0];
-  execute(data, strFunction);
+
 
   return [theta, cost];
 
