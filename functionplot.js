@@ -6,10 +6,12 @@ var numeric = require("numeric");
 // var theta;
 // var globalData;
 var stringSteps = [];
+var GLOBAL_COST = [];
 var globalData;
+var stop = false;
 
 //construct plot with data as an array of 2 number arrays and strFunction being a string describing what y equals
-function execute(data, strFunction){
+function execute(data, strFunction, cost){
   console.log("Executing");
   functionPlot({
     target: '#myplot',
@@ -23,6 +25,9 @@ function execute(data, strFunction){
       points: data
     }]
   });
+  console.log("UPDATING HTML!")
+  document.getElementById("function").innerHTML = strFunction;
+  document.getElementById("cost").innerHTML = '' + cost;
 
 
 };
@@ -91,8 +96,31 @@ function iterate(){
   if(step < stringSteps.length-1){
     var i = step+1;
     document.getElementById("step").value = i;
-    execute(globalData, stringSteps[i]);
+    execute(globalData, stringSteps[i], GLOBAL_COST[i]);
   }
+}
+function playButton(){
+  stop = false;
+  play();
+}
+function play(){
+  //keep playing if stop button has not been pressed
+  if(!stop){
+    setTimeout(()=>{
+      var step = parseInt(document.getElementById("step").value);
+      if(step < stringSteps.length-1 && !stop){
+        var i = step+1;
+        document.getElementById("step").value = i;
+        execute(globalData, stringSteps[i], GLOBAL_COST[i]);
+        play();
+      }
+    }, 200)
+  }
+}
+
+function stopButton(){
+  stop = true;
+  console.log("Stopping!");
 }
 
 
@@ -169,17 +197,19 @@ function gradientDescent(X, Y, theta, alpha, iters, data){
     var strFunction = ''+theta[0][1]+'x+'+theta[0][0];
     stringSteps[i] = strFunction;
     document.getElementById("step").value = -1;
-    execute(data, '0');
+    execute(data, '0', '0');
 
   }
 
-
+  GLOBAL_COST = cost;
   return [theta, cost];
 
 }
 
 
 //export button function to the window
+window.playButton = playButton;
+window.stopButton = stopButton;
 window.randomize = randomize;
 window.iterate = iterate;
 window.known = known;
