@@ -12,7 +12,7 @@ var stop = false;
 
 //construct plot with data as an array of 2 number arrays and strFunction being a string describing what y equals
 function execute(data, strFunction, cost){
-  console.log("Executing");
+  // console.log("Executing");
   functionPlot({
     target: '#myplot',
     xAxis: {domain: [-10, 10]},
@@ -25,7 +25,7 @@ function execute(data, strFunction, cost){
       points: data
     }]
   });
-  console.log("UPDATING HTML!")
+  // console.log("UPDATING HTML!")
   document.getElementById("function").innerHTML = strFunction;
   document.getElementById("cost").innerHTML = '' + cost;
 
@@ -52,7 +52,7 @@ function known(){
   iterations = document.getElementById("iterations").value;
   var data =[];
   for(var i = 0; i<10; i++){
-    data.push([i/2, i*1.5+1]);
+    data.push([i/2, i*1.5+5]);
   }
   buildXY(data, alpha, iterations);
 };
@@ -127,25 +127,13 @@ function stopButton(){
 //computes the cost of a linear regression function
 function computeCost(X, Y, theta){
   console.log("cost");
-  // console.log(numeric.prettyPrint(numeric.transpose(theta)));
-  // console.log(numeric.prettyPrint(X));
-  // console.log(numeric.prettyPrint(numeric.transpose(theta)));
-  // console.log(numeric.prettyPrint(Y));
-
 
   var xt = numeric.dot(X, numeric.transpose(theta));
   // console.log(numeric.prettyPrint(xt));
   var term = numeric.sub(xt, Y);
   // console.log(numeric.prettyPrint(term));
   var term2 = numeric.pow(term, 2);
-  // console.log(numeric.prettyPrint(term2));
-  // console.log(numeric.prettyPrint(xt2));
-  // console.log(theta[0].length)
-  console.log("sq values of the matrix above....");
-  // console.log(numeric.prettyPrint(term2));
 
-  // console.log("sum");
-  // console.log(numeric.sum(term2));
   var cost = numeric.sum(term2)/(2*theta[0].length);
   console.log(cost);
   // gradientDescent(X,Y,theta,0.01,20);
@@ -202,7 +190,36 @@ function gradientDescent(X, Y, theta, alpha, iters, data){
   }
 
   GLOBAL_COST = cost;
+  plotcost(GLOBAL_COST);
   return [theta, cost];
+
+}
+
+
+function plotcost(cost){
+  //turn cost array into xy points
+  costPoints = [];
+  for(var i =0; i<cost.length; i++){
+    costpt = [i,cost[i]];
+    costPoints.push(costpt);
+  }
+  //plot cost vs iteration
+  functionPlot({
+    target: '#costplot',
+    xAxis: {
+      domain: [-10, cost.length],
+      label: 'Itertaions'
+    },
+    yAxis: {
+      domain: [-10, cost[0]*1.5],
+      label: 'Cost'
+    },
+    data: [{
+      fnType: 'points',
+      graphType: 'polyline',
+      points: costPoints
+    }]
+  });
 
 }
 
