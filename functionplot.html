@@ -67,12 +67,21 @@
           <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
         </p>
       </div> -->
-      iterations:
-      <input id="iterations" value=10><br>
-      alpha:
-      <input id="alpha" value=0.01><br>
+      <h4>Change the data:</h4>
       <button onclick="randomize()">Randomize!</button>
       <button onclick="known()">Known</button>
+      <br>
+      <br>
+      <h4>Change how the regression works:</h4>
+      Iterations:
+      <input id="iterations" value=10><br>
+      Alpha (learning rate):
+      <input id="alpha" value=0.01>
+      <br>
+      <button onclick="resolve()">Solve</button>
+      <br>
+      <br>
+      <h4>Animate it!:</h4>
       <button onclick="iterate()">Iterate</button>
       <button onclick="playButton()">Play</button>
       <button onclick="stopButton()">Stop</button>

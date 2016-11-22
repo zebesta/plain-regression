@@ -28,8 +28,6 @@ function execute(data, strFunction, cost){
   // console.log("UPDATING HTML!")
   document.getElementById("function").innerHTML = strFunction;
   document.getElementById("cost").innerHTML = '' + cost;
-
-
 };
 
 function randomize(){
@@ -56,6 +54,15 @@ function known(){
   }
   buildXY(data, alpha, iterations);
 };
+
+function resolve(){
+  var alpha, iterations;
+  alpha = document.getElementById("alpha").value;
+  iterations = document.getElementById("iterations").value;
+  //hacky double set, probably need to fix this
+  data = globalData;
+  buildXY(data, alpha, iterations);
+}
 
 
 
@@ -230,3 +237,4 @@ window.stopButton = stopButton;
 window.randomize = randomize;
 window.iterate = iterate;
 window.known = known;
+window.resolve = resolve;
